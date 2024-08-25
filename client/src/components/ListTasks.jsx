@@ -26,18 +26,23 @@ const ListTasks = () => {
                 confirmButtonText: 'OK'
             });
             onRequestClose()
+            getData()
         })
         .catch((err)=>console.log(err))
     }
 
-    const [data, setData] = useState([])
-    useEffect(() =>{
-        axios.get('/tasks')
-        .then((res) => {
-            setData(res.data)
+    function getData(){
+        const [data, setData] = useState([])
+        useEffect(() =>{
+            axios.get('/tasks')
+            .then((res) => {
+                setData(res.data)
+            })
+            .catch((err) => console.log(err))
         })
-        .catch((err) => console.log(err))
-    })
+    }
+
+    getData()
 
     return (
         <div className="container-fluid">
@@ -54,7 +59,7 @@ const ListTasks = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <table className="table table-hovered">
+                    <table className="table m-4">
                         <thead className="thead-black">
                             <tr>
                                 <th scope="col">Id</th>
@@ -71,8 +76,7 @@ const ListTasks = () => {
                                         <td>{task.name}</td>
                                         <td>{task.description}</td>
                                         <td>
-                                            <a href="" role="button"><i class="bi bi-pencil-fill"></i></a>
-                                            <a href="" role="button"><i class="bi bi-trash"></i></a>
+
                                         </td>
                                     </tr>)
                                 })
