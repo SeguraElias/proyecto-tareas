@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd API && npm run dev",
+    "client": "cd client && npm start",
     "build": "tsc",
     "dev": "nodemon API/src/index.ts --exec ts-node"
   },
@@ -18,9 +21,13 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "concurrently": "^8.2.2",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.11.0",
+    "react-devtools": "^5.3.1",
+    "react-modal": "^3.16.1",
+    "react-redux": "^9.1.2",
     "ts-node": "^10.9.2"
   }
 }
