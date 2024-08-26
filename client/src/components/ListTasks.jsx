@@ -26,27 +26,22 @@ const ListTasks = () => {
                 confirmButtonText: 'OK'
             });
             onRequestClose()
-            getData()
         })
         .catch((err)=>console.log(err))
     }
 
-    function getData(){
-        const [data, setData] = useState([])
-        useEffect(() =>{
-            axios.get('/tasks')
-            .then((res) => {
-                setData(res.data)
-            })
-            .catch((err) => console.log(err))
+    const [data, setData] = useState([])
+    useEffect(() =>{
+        axios.get('/tasks')
+        .then((res) => {
+            setData(res.data)
         })
-    }
-
-    getData()
+        .catch((err) => console.log(err))
+    })
 
     return (
         <div className="container-fluid">
-            <div className="card m-auto mt-5" style={{ width: 900 }}>
+            <div className="card m-auto mt-5" style={{ width: 700 }}>
                 <div className="row">
                     <div className="cl-md-2 ms-3 mt-3">
                         <button onClick={openModal} className="btn btn-success">Agregar</button>
@@ -58,8 +53,8 @@ const ListTasks = () => {
                             values={values}></ModalComponent>
                     </div>
                 </div>
-                <div className="row">
-                    <table className="table m-4">
+                <div className="row justify-content-center">
+                    <table className="table m-4" style={{width: 600}}>
                         <thead className="thead-black">
                             <tr>
                                 <th scope="col">Id</th>
