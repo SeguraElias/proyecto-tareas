@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 
 const ListTasks = () => {
     const [ ModalIsOpen, SetModalIsOpen ] = useState(false)
+    const [data, setData] = useState([])
+    const [deleted, setDeleted] = useState(true)
     const [values, setValues] = useState({
         name: '',
         description: ''
@@ -12,6 +14,18 @@ const ListTasks = () => {
 
     const openModal = () => SetModalIsOpen(true)
     const closeModal = () => SetModalIsOpen(false)
+
+    useEffect(() =>{
+        if (deleted){
+            setDeleted(false)
+            axios.get('/tasks')
+            .then((res) => {
+                setData(res.data)
+            })
+            .catch((err) => console.log(err))
+        }
+        
+    }, [deleted])
 
     const handleSubmit = (e, onRequestClose) => {
         e.preventDefault()
@@ -30,14 +44,38 @@ const ListTasks = () => {
         .catch((err)=>console.log(err))
     }
 
-    const [data, setData] = useState([])
-    useEffect(() =>{
-        axios.get('/tasks')
-        .then((res) => {
-            setData(res.data)
+    function handleDelete(id){
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "No podras revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
         })
-        .catch((err) => console.log(err))
-    })
+        .then((result) => {
+            if (result.isConfirmed){
+                axios.delete(`/tasks/${id}`)
+                .then((res)=>{
+                    Swal.fire(
+                        'Success',
+                        'La tarea se elimino con exito',
+                        'ok'
+                    )
+                })
+                .catch((err)=> {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al eliminar el registro',
+                        'error'
+                    )
+                })
+            }
+        });
+        
+    }
 
     return (
         <div className="container-fluid">
@@ -72,7 +110,7 @@ const ListTasks = () => {
                                         <td>{task.description}</td>
                                         <td>
                                             <button className="btn btn-info"><i className="bi bi-pencil"></i></button>
-                                            <button className="btn btn-danger"><i className="bi bi-trash"></i></button>
+                                            <button onClick={()=>handleDelete(task.id)} className="btn btn-danger"><i className="bi bi-trash"></i></button>
                                         </td>
                                     </tr>)
                                 })
