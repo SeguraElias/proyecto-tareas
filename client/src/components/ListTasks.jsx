@@ -71,7 +71,8 @@ const ListTasks = () => {
                                         <td>{task.name}</td>
                                         <td>{task.description}</td>
                                         <td>
-
+                                            <button className="btn btn-info"><i className="bi bi-pencil"></i></button>
+                                            <button className="btn btn-danger"><i className="bi bi-trash"></i></button>
                                         </td>
                                     </tr>)
                                 })
